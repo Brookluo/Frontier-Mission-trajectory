@@ -78,7 +78,7 @@ while start_date != end_date:
     while np.absolute(norm(old_dv) - norm(new_dv)) > tol:
         old_dv = temp
         new_ast = propagate(asteroid, flight)
-        result = [x for x in lambert(Sun.k, earth.rv()[0], new_ast.rv()[0], flight)]
+        result = [x for x in lambert(Sun.k, earth.rv()[0], new_ast.rv()[0], flight), start_date]
         dv = result[0][1] - result[0][0]
         new_dv = np.absolute(norm(result[0][0] - result[0][1]))
         flight -= hour
@@ -88,7 +88,7 @@ while start_date != end_date:
             break
         itera += 1
     if flag:
-        pool[new_dv] = [flight, result[0][0], result[0][1]]
+        pool[new_dv] = [flight, result[0][0], result[0][1],start_date]
     start_date += step
     asteroid = propagate(asteroid, day)
     earth = propagate(earth, day)
